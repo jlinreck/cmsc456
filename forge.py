@@ -94,8 +94,7 @@ def universal_forge(MAC, msg):
     # You may query MAC for any message different from the input. 
     # Completion of the task with fewer queries is worth more points!
     # Below is an example that does not work!
-    m, n = msgm_query = min(m + 1, 15)
-    n_query = min(n + 1, 15)
+    m, n = msg
     if m == 15 and n == 15:
         return None
     if m < 15 and n < 15:
