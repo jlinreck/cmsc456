@@ -80,14 +80,9 @@ def selective_forge(MAC):
     # You may query MAC for any message different from the one you return. 
     # Completion of the task with fewer queries is worth more points!
     # Below is an example that does not work!
-    tag1 = MAC((1, 0))
-    tag2 = MAC((0, 1)) 
-    # s1, t1 = tag1
-    s2, t2 = tag2
-    forged_msg = (0, 0)
-    forged_s = t2 - s2 
-    forged_t = t2 - s2 
-    return (forged_msg, (forged_s, forged_t))
+    s_query, t_query = MAC((0, 1))
+    k_00 = t_query - s_query
+    return ((0, 0), (k_00, k_00))
 
 def universal_forge(MAC, msg):
     # In this task, you must return the valid tag for the input message that would be produced by running the MAC protocol specified by sample_MAC
