@@ -95,41 +95,45 @@ def universal_forge(MAC, msg):
     final_s = 0
     final_t = 0
     if n < 15:
-        s_right, t_right = MAC((m, n+1)) 
-        s_right_above = 0
+        s_right, t_right = MAC((m, n+1))
+        s_right_top = 0
         if m > 0:
-            s_right_above, _ = MAC((m-1, n+1))
-        k_right = s_right - s_right_above
+            s_right_top, _ = MAC((m-1, n+1))
+        k_right = s_right - s_right_top
         final_t = t_right - k_right
     else:
         _, t_left = MAC((m, 14))
-        s_below_curr, t_below_curr = MAC((m+1, 15))
-        _, t_below_left = MAC((m+1, 14))
-        k_below_curr = t_below_curr - t_below_left
-        s_curr = s_below_curr - k_below_curr
-        s_prev = 0
-        if m > 0:
-            s_prev, _ = MAC((m-1, 15)) 
-        k_at_edge = s_curr - s_prev
-        final_t = t_left + k_at_edge
+        k_val = 0
+        if m < 15:
+            s_below, t_below = MAC((m+1, 15))
+            _, t_below_left = MAC((m+1, 14))
+            k_below = t_below - t_below_left 
+            s_curr = s_below - k_below 
+            s_prev = 0
+            if m > 0:
+                s_prev, _ = MAC((m-1, 15))
+            k_val = s_curr - s_prev
+        else:
+            pass
+        final_t = t_left + k_val
     if m < 15:
         s_below, t_below = MAC((m+1, n)) 
         t_below_left = 0
         if n > 0:
-            _, t_below_left = MAC((m+1, n-1)) 
+            _, t_below_left = MAC((m+1, n-1))     
         k_below = t_below - t_below_left
         final_s = s_below - k_below
     else:
-        s_above, _ = MAC((14, n))
-        s_right_curr, t_right_curr = MAC((15, n+1))
-        s_right_above, _ = MAC((14, n+1))
-        k_right_curr = s_right_curr - s_right_above
-        t_curr = t_right_curr - k_right_curr
+        s_top, _ = MAC((14, n))
+        s_right, t_right = MAC((15, n+1))
+        s_right_top, _ = MAC((14, n+1))
+        k_right = s_right - s_right_top 
+        t_curr = t_right - k_right 
         t_prev = 0
         if n > 0:
             _, t_prev = MAC((15, n-1))
-        k_at_edge = t_curr - t_prev
-        final_s = s_above + k_at_edge
+        k_val = t_curr - t_prev
+        final_s = s_top + k_val
     return (final_s, final_t)
 
 def md_forge(MD):
